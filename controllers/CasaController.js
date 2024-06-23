@@ -3,7 +3,10 @@ const { initializeBoard,
   getServoVentana, 
   getServoPuerta,
   getServoGaraje,
-  getServoTranca} = require("../config/PlacaController");
+  getServoTranca,
+  getLedDormitorio1,
+  getLedDormitorio2,
+  getLedSala} = require("../config/PlacaConfig");
 
 initializeBoard()
   .then(() => {
@@ -95,7 +98,7 @@ exports.CerrarGaraje = (req, res) => {
   setTimeout(() => {
     servogaraje.to(90);
     res.status(200).send({ message: "Puerta Cerrada" });
-  }, 800);
+  }, 850);
 };
 
 exports.AbrirTranca = (req, res) => {
@@ -124,4 +127,78 @@ exports.CerrarTranca = (req, res) => {
     servotranca.to(90);
     res.status(200).send({ message: "Tranca Bajada" });
   }, 450);
+};
+
+exports.EncenderDormitorio1 = (req, res) => {
+  if (!isBoardReady()) {
+    return res.status(500).send({ message: "Board not ready" });
+  }
+  let dormitorio1 = getLedDormitorio1();
+  if(dormitorio1){
+    dormitorio1.on();
+    return res.status(200).send({ message: "Led dormitorio 1 encendido" });
+  }
+  
+};
+
+exports.ApagarDormitorio1 = (req, res) => {
+  if (!isBoardReady()) {
+    return res.status(500).send({ message: "Board not ready" });
+  }
+
+  let dormitorio1 = getLedDormitorio1();
+
+  if(dormitorio1){
+    dormitorio1.off();
+    return res.status(200).send({ message: "Led dormitorio 1 apagado" });
+  }
+};
+
+exports.EncenderDormitorio2 = (req, res) => {
+  if (!isBoardReady()) {
+    return res.status(500).send({ message: "Board not ready" });
+  }
+  let dormitorio2 = getLedDormitorio2();
+  if(dormitorio2){
+    dormitorio2.on();
+    return res.status(200).send({ message: "Led dormitorio 2 encendido" });
+  }
+  
+};
+
+exports.ApagarDormitorio2 = (req, res) => {
+  if (!isBoardReady()) {
+    return res.status(500).send({ message: "Board not ready" });
+  }
+
+  let dormitorio2 = getLedDormitorio2();
+  if(dormitorio2){
+    dormitorio2.off();
+    return res.status(200).send({ message: "Led dormitorio 2 apagado" });
+  }
+};
+
+exports.EncenderSala = (req, res) => {
+  if (!isBoardReady()) {
+    return res.status(500).send({ message: "Board not ready" });
+  }
+  let sala = getLedSala();
+  if(sala){
+    sala.on();
+    return res.status(200).send({ message: "Led sala encendido" });
+  }
+  
+};
+
+exports.ApagarSala = (req, res) => {
+  if (!isBoardReady()) {
+    return res.status(500).send({ message: "Board not ready" });
+  }
+
+  let sala = getLedSala();
+
+  if(sala){
+    sala.off();
+    return res.status(200).send({ message: "Led sala apagado" });
+  }
 };
